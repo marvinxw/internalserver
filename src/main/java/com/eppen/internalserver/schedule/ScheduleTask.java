@@ -29,7 +29,7 @@ public class ScheduleTask {
     private final String MAX_UPDATE_TIME = "maxUpdatetime";
 
     // 如果内部增加会有问题
-    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 365000)
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 36500)
     public void run() {
 
         while (true) {

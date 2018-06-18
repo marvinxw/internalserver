@@ -1,28 +1,25 @@
 package com.eppen.internalserver.schedule;
 
-
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.eppen.internalserver.models.InternalTable;
 import com.eppen.internalserver.repository.InternalTableRepository;
 import com.eppen.internalserver.to.HttpUnirest;
 import lombok.extern.slf4j.Slf4j;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.scheduling.annotation.EnableScheduling;
-//import org.springframework.scheduling.annotation.Scheduled;
 import org.json.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-//@Configuration
-//@EnableScheduling
+@Configuration
+@EnableScheduling
 @Component
 @Slf4j
 public class ScheduleTask {
 
-//    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 1000)
     @Autowired
     InternalTableRepository internalTableRepository;
 
@@ -31,6 +28,8 @@ public class ScheduleTask {
 
     private final String MAX_UPDATE_TIME = "maxUpdatetime";
 
+    // 如果内部增加会有问题
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 1000)
     public void run() {
 
         while (true) {
@@ -41,9 +40,11 @@ public class ScheduleTask {
                 Map<String, Object> maxTimeStamp = internalTableRepository.getMaxUpdateTime();
                 JSONArray datas = httpUnirest.get(maxTimeStamp.get(MAX_UPDATE_TIME).toString());
 
-                for (Object ds: datas) {
-                    InternalTable internalTable = JSONObject.parseObject(ds.toString(), InternalTable.class);
-                    internalTableRepository.saveAndFlush(internalTable);
+                if (datas != null) {
+                    for (Object ds: datas) {
+                        InternalTable internalTable = JSONObject.parseObject(ds.toString(), InternalTable.class);
+                        internalTableRepository.saveAndFlush(internalTable);
+                    }
                 }
 
                 Thread.sleep(5000);

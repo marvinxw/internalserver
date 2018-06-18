@@ -1,6 +1,5 @@
 package com.eppen.internalserver.models;
 
-
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

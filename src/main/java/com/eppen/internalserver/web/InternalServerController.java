@@ -7,47 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
-@RequestMapping(value = "/Internal")
+@RequestMapping(value = "/internal")
 public class InternalServerController {
 
     @Autowired
     private InternalTableRepository internalTableRepository;
 
+    @RequestMapping("")
+    public String index(ModelMap map) {
+        return "index";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ApiResponse<InternalTable> save(@ModelAttribute(value="InternalTable") InternalTable InternalTable) {
+    public ApiResponse<InternalTable> save(@ModelAttribute(value="internalTable") InternalTable internalTable) {
 
-        InternalTable.setDelFlag(1l);
-        internalTableRepository.save(InternalTable);
+        internalTable.setDelFlag(1l);
+        internalTableRepository.save(internalTable);
         ApiResponse<InternalTable> res = new ApiResponse<>();
         res.setCode(ApiResponse.OK);
-        res.setData(InternalTable);
+        res.setData(internalTable);
         res.setMsg("成功!!!");
 
         return res;
     }
-
-    @RequestMapping("")
-    public String indIn(ModelMap map) {
-        return "index";
-    }
-
-//    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-//    @ResponseBody
-//    public ApiResponse<InternalTable> addDatabase(@RequestBody String requestBody) {
-//
-//        InternalTable InternalTable = JSONObject.parseObject(requestBody, InternalTable.class);
-//
-//        InternalTable = InternalTableRepository.save(InternalTable);
-//
-//        ApiResponse<InternalTable> res = new ApiResponse<>();
-//        res.setCode(ApiResponse.OK);
-//        res.setMsg("SUCCESS");
-//        res.setData(InternalTable);
-//        return res;
-//    }
 }

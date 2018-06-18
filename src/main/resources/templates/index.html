@@ -22,7 +22,7 @@
             function submit() {
                 $.ajax({
                     type: "POST",
-                    url:"/external/add/",
+                    url:"/internal/add/",
                     data:$('#formId').serialize(),
                     async: false,
                     error: function(request) {
@@ -32,7 +32,7 @@
                         if (data.code === 1) {
                             $('#tips').text('提交成功').css({"color":"green","font-size":"21px"});
                         } else {
-                            $('#tips').text('提交失败').css({"color":"green","font-size":"21px"});
+                            $('#tips').text('提交失败').css({"color":"red","font-size":"21px"});
                         }
                     }
                 });

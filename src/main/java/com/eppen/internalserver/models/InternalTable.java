@@ -1,6 +1,5 @@
 package com.eppen.internalserver.models;
 
-
 import lombok.Data;
 
 import javax.persistence.Column;

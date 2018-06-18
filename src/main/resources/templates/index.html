@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>首页</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+</head>
+    <body>
+        <form id="formId">
+            <fieldset>
+                姓名：<input type="text" name="name" />
+                <br />
+                UUID：<input type="text" name="uuid" />
+                <br />
+            </fieldset>
+        </form>
+        <input type="button" value="提交!" onclick="submit()" />
+        <div id="tips"></div>
+        
+        <script type="text/javascript">
+            function submit() {
+                $.ajax({
+                    type: "POST",
+                    url:"/external/add/",
+                    data:$('#formId').serialize(),
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error:"+request.error);
+                    },
+                    success: function(data) {
+                        if (data.code === 1) {
+                            $('#tips').text('提交成功').css({"color":"green","font-size":"21px"});
+                        } else {
+                            $('#tips').text('提交失败').css({"color":"green","font-size":"21px"});
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -9,7 +9,6 @@ import java.util.Map;
 
 @Repository
 public interface InternalTableRepository extends JpaRepository<InternalTable, Long> {
-    // 查询comment like 的所有库信息
     @Query(nativeQuery = true, value = "select ifnull(max(updated_at), '2018-06-18 17:20:45') as maxUpdatetime from eppen_internal_server_table")
     Map<String, Object> getMaxUpdateTime();
 }
